@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
+/* Palette CSS custom properties partagée entre thèmes clair/sombre. */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-ink: #0F172A;
+  --color-muted: #64748B;
+  --color-accent: #34D399;
+  --color-accent-strong: #10B981;
+  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border-strong: rgba(15, 23, 42, 0.16);
+  --shadow-soft: 0 22px 45px -28px rgba(15, 23, 42, 0.35);
+  --shadow-hover: 0 24px 50px -24px rgba(52, 211, 153, 0.35);
+  --color-ink-card: #0F172A;
+  --color-muted-card: #1E293B;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Variante dark : mêmes tokens mais adaptés au fond sombre. */
+[data-theme="dark"] {
+  --color-background: #0F172A;
+  --color-surface: #111C34;
+  --color-ink: #F8FAFC;
+  --color-muted: #CBD5F5;
+  --color-accent: #34D399;
+  --color-accent-strong: #10B981;
+  --color-border: rgba(148, 163, 184, 0.18);
+  --color-border-strong: rgba(148, 163, 184, 0.35);
+  --shadow-soft: 0 20px 50px -28px rgba(15, 23, 42, 0.6);
+  --shadow-hover: 0 20px 48px -22px rgba(52, 211, 153, 0.45);
+  --color-ink-card: #0F172A;
+  --color-muted-card: #1E293B;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-ink);
+  font-family: var(--font-inter, sans-serif);
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.font-heading {
+  font-family: var(--font-poppins, sans-serif);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+a:hover {
+  color: var(--color-accent-strong);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(52, 211, 153, 0.25);
+  color: var(--color-ink);
+}
+
+/* Respecte les préférences d’animation réduite du système. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
