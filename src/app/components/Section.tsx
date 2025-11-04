@@ -10,9 +10,7 @@ type SectionProps<T extends ElementTag = "section"> = {
 };
 
 /**
- * Wrapper générique utilisé pour toutes les sections verticales de la page.
- * - Autorise le passage d’un autre tag (`as`) pour varier la sémantique au besoin.
- * - Concatène des classes utilitaires Tailwind communes (padding + max width).
+ * Section réutilisable pour cadrer les espacements.
  */
 export default function Section<T extends ElementTag = "section">({
   id,

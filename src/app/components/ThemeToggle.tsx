@@ -7,10 +7,7 @@ const STORAGE_KEY = "theme";
 type Theme = "light" | "dark";
 
 /**
- * Bouton de bascule thème clair/sombre.
- * - Persiste le choix utilisateur dans `localStorage`.
- * - Se synchronise avec le media query `prefers-color-scheme` pour suivre le système.
- * - Met à jour `document.documentElement.dataset.theme` (exploité dans `globals.css`).
+ * Toggle de thème clair/sombre.
  */
 export default function ThemeToggle() {
   const getInitialTheme = (): Theme => {
@@ -34,7 +31,6 @@ export default function ThemeToggle() {
 
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
-  // A chaque mise à jour du thème, on synchronise DOM + persistance.
   useEffect(() => {
     try {
       document.documentElement.dataset.theme = theme;
@@ -44,7 +40,6 @@ export default function ThemeToggle() {
     }
   }, [theme]);
 
-  // Reste à l’écoute des changements système pour aligner l’expérience utilisateur.
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) {
       return;

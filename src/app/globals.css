@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Palette CSS custom properties partagée entre thèmes clair/sombre. */
+/* Styles globaux de l’application Next.js. */
 
 :root {
   --color-background: #F8FAFC;
@@ -15,9 +15,10 @@
   --shadow-hover: 0 24px 50px -24px rgba(52, 211, 153, 0.35);
   --color-ink-card: #0F172A;
   --color-muted-card: #1E293B;
+  --font-inter: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-poppins: "Poppins", "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Variante dark : mêmes tokens mais adaptés au fond sombre. */
 [data-theme="dark"] {
   --color-background: #0F172A;
   --color-surface: #111C34;
@@ -74,7 +75,6 @@ select:focus-visible {
   color: var(--color-ink);
 }
 
-/* Respecte les préférences d’animation réduite du système. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

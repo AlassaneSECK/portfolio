@@ -1,14 +1,18 @@
 import Link from "next/link";
 
-const socials = [
+type SocialLink = Readonly<{
+  href: string;
+  label: string;
+}>;
+
+const socials: SocialLink[] = [
   { href: "https://github.com/AlassaneSECK", label: "GitHub" },
   { href: "https://www.linkedin.com/in/alassane-seck-5ba407296/", label: "LinkedIn" },
   { href: "mailto:alassane.seck@alass-code.com", label: "Email" }
 ];
 
 /**
- * Footer statique : rappelle les liens sociaux et s’adapte aux tailles d’écran.
- * Les liens externes ouvrent un nouvel onglet tout en restant sécurisés (`rel="noopener"`).
+ * Pied de page statique du site.
  */
 export default function Footer() {
   return (

@@ -1,6 +1,8 @@
 import type { SVGProps } from "react";
 
-// Icône GitHub en SVG : on propage `props` pour que la taille/couleur soient contrôlables depuis l’extérieur.
+/**
+ * Icône GitHub.
+ */
 export default function GitHubIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg

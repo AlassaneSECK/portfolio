@@ -1,7 +1,9 @@
 import Section from "@/app/components/Section";
 import SectionTitle from "@/app/components/SectionTitle";
 
-/** Page blog temporaire : on garde la même ossature pour limiter la dette design. */
+/**
+ * Page Blog du portfolio.
+ */
 export default function BlogPage() {
   return (
     <Section className="flex min-h-[60vh] flex-col items-center justify-center text-center">

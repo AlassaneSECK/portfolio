@@ -1,3 +1,4 @@
+import {ComponentPropsWithoutRef, JSX} from "react";
 import Link from "next/link";
 import Section from "@/app/components/Section";
 import SectionTitle from "@/app/components/SectionTitle";
@@ -5,61 +6,51 @@ import Reveal from "@/app/components/Reveal";
 import GitHubIcon from "@/app/components/icons/GitHubIcon";
 import LinkedInIcon from "@/app/components/icons/LinkedInIcon";
 
+type FeaturedProject = {
+  id: string;
+  title: string;
+  pitch: string;
+  tags: readonly string[];
+  cta: string;
+};
+
+type FeaturedArticle = {
+  title: string;
+  date: string;
+  href: string;
+  excerpt: string;
+};
+
+type SocialLink = {
+  href: string;
+  label: string;
+  icon: (props: ComponentPropsWithoutRef<"svg">) => JSX.Element;
+};
+
 /**
- * Page d’accueil : composant serveur Next.js (App Router).
- * - Les tableaux `strengths`, `projects`, `articles`, `socialLinks` servent de source de vérité
- *   et alimentent directement le JSX via `map`, ce qui permet de conserver un rendu statique côté serveur.
- * - Chaque bloc visuel est encapsulé dans un composant `Section` (structure + spacing) et `Reveal`
- *   (animation d’apparition côté client). Les fragments d’UI n’ont pas d’état local, on reste sur un rendu
- *   déclaratif simplifié.
+ * Page d’accueil du portfolio (App Router).
  */
 
-// Liste des axes de valeur sur lesquels tu souhaites insister.
-const strengths = [
+const projects: readonly FeaturedProject[] = [
   {
-    title: "Performance",
-    description: "Budgets de perf, audits Core Web Vitals et front-end profiling pour garder l'app réactive.",
-    icon: "🚀"
+    id: "cryptoportiques-arles",
+    title: "Visite immersive des cryptoportiques d'Arles",
+    pitch:
+      "Application VR multi-supports pour valoriser un monument UNESCO, du front TypeScript aux services Flask en temps réel.",
+    tags: ["TypeScript", "Three.js", "Flask"],
+    cta: "/projets#cryptoportiques-arles"
   },
   {
-    title: "Accessibilité",
-    description: "Design system accessible, navigation clavier et conformité WCAG dès la conception.",
-    icon: "♿"
-  },
-  {
-    title: "3D & Intégration",
-    description: "Expériences 3D/Three.js scénarisées qui restent légères et maintenables dans le temps.",
-    icon: "🧊"
+    id: "seba-mobile",
+    title: "Application mobile de relevés SEBA",
+    pitch:
+      "Solution Android Kotlin avec OCR et synchronisation SQLite pour fiabiliser les mesures terrain du syndicat des eaux.",
+    tags: ["Kotlin", "SQLite", "OCR"],
+    cta: "/projets#seba-mobile"
   }
 ] as const;
 
-// Sélection de projets pour la grille “Projets en vedette”.
-const projects = [
-  {
-    id: "nebula-studio",
-    title: "Nebula Studio",
-    pitch: "Parcours architectural immersif, synchronisé en temps réel entre tablette et desktop.",
-    tags: ["Next.js", "Three.js", "Realtime"],
-    cta: "#"
-  },
-  {
-    id: "orion-dashboard",
-    title: "Orion Dashboard",
-    pitch: "Pilotage d'objets connectés avec alerting prédictif et visualisation 3D.",
-    tags: ["React", "WebGL", "IoT"],
-    cta: "#"
-  },
-  {
-    id: "hydra-labs",
-    title: "Hydra Labs Platform",
-    pitch: "Suite R&D modulaire avec design system accessible et pipeline CI/CD complet.",
-    tags: ["TypeScript", "Design System", "CI/CD"],
-    cta: "#"
-  }
-] as const;
-
-// Articles ou billets mis en avant dans la section blog.
-const articles = [
+const articles: readonly FeaturedArticle[] = [
   {
     title: "Maintenir 60 FPS sur un projet React + WebGL",
     date: "Jan 2025",
@@ -83,8 +74,7 @@ const articles = [
   }
 ] as const;
 
-// Liens sociaux : on stocke le composant icône pour pouvoir l’afficher plus bas.
-const socialLinks = [
+const socialLinks: readonly SocialLink[] = [
   { href: "https://github.com/AlassaneSECK", label: "GitHub", icon: GitHubIcon },
   { href: "https://www.linkedin.com/in/alassaneseck", label: "LinkedIn", icon: LinkedInIcon }
 ] as const;
@@ -92,25 +82,20 @@ const socialLinks = [
 export default function Home() {
   return (
     <div className="flex flex-col gap-20 pb-16 md:gap-24">
-      {/* SECTION HERO : présentation générale et appels à l’action principaux */}
       <Section className="pt-14 md:pt-24">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr),minmax(0,0.9fr)] md:gap-16">
           <Reveal className="flex flex-col gap-8">
-            {/* Badge d’état : donne immédiatement le ton sur le type de missions recherchées */}
             <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[rgba(52,211,153,0.15)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
               Disponible pour projets à impact humain
             </span>
             <div className="flex flex-col gap-4">
-              {/* Titre principal : angle éditorial davantage centré sur la valeur humaine */}
               <h1 className="font-heading text-4xl font-semibold leading-tight text-[var(--color-ink)] md:text-5xl">
                 Je crée des expériences numériques utiles et humaines.
               </h1>
-              {/* Paragraphe d’accroche : met en avant les soft skills et l’engagement personnel */}
               <p className="max-w-xl text-lg text-[var(--color-muted)] md:text-xl">
                 Du projet de valorisation des cryptoportiques d&apos;Arles à l&apos;application mobile que je conçois pour mieux gérer mon quotidien, je m&apos;investis à 100 % dans chaque aventure. Communication, esprit d&apos;équipe, adaptabilité et curiosité nourrissent ma progression continue pour rester sérieux, autonome et persévérant, même sous pression.
               </p>
             </div>
-            {/* Bloc de boutons : navigation vers projets, CV et recommandation */}
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <Link
                 href="/projets"
@@ -131,12 +116,9 @@ export default function Home() {
                   Lettre de recommandation
                 </Link>
             </div>
-            {/* Liens sociaux : rendu des icônes SVG dans les pastilles */}
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => {
                 const Icon = link.icon;
-                // On instancie dynamiquement l’icône : `Icon` est un composant React.
-                // Chaque bouton reste un lien externe sécurisé (target blank + rel noopener).
                 return (
                   <Link
                     key={link.label}
@@ -154,7 +136,6 @@ export default function Home() {
           </Reveal>
 
           <Reveal className="relative">
-            {/* Effet lumineux arrière-plan */}
             <div className="absolute inset-0 -translate-y-6 scale-105 rounded-[28px] bg-[radial-gradient(circle_at_top,_rgba(52,211,153,0.25),_transparent_60%)] blur-2xl opacity-80" />
             <div className="relative overflow-hidden rounded-[28px] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-soft)]">
               <div className="absolute inset-0 opacity-[0.15]" aria-hidden="true">
@@ -179,7 +160,6 @@ export default function Home() {
                   <rect width="100%" height="100%" fill="url(#dots)" />
                 </svg>
               </div>
-              {/* Carte descriptive du projet signature (mix texte + storytelling) */}
               <div className="relative flex aspect-[16/10] flex-col justify-between bg-gradient-to-br from-white via-[rgba(52,211,153,0.08)] to-white p-6 text-[var(--color-ink-card)]">
                 <div>
                   <span className="inline-flex rounded-full bg-white/60 px-3 py-1 text-xs font-medium text-[var(--color-muted-card)] backdrop-blur">
@@ -196,7 +176,6 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-                  {/* Pile de techno et CTA secondaire vers la page projets */}
                   <span className="text-xs uppercase tracking-[0.24em] text-[var(--color-muted)]">
                     Three.js · HTML/CSS · Typescript · Python
                   </span>
@@ -216,33 +195,32 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* SECTION EXPERTISES : synthèse des piliers de collaboration */}
       <Section>
         <SectionTitle
           eyebrow="Expertises"
           title="Ce que j’apporte à vos projets"
-          description="Un binôme design/tech solide, des rituels clairs et un socle fiable pour accélérer."
+          description="Backend Java/Spring Boot, DevOps pragmatique et expériences immersives livrées de bout en bout."
         />
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {strengths.map((item, index) => (
-            <Reveal key={item.title} delay={index * 80} className="h-full">
-              {/* Le `delay` progressif crée un effet de cascade lorsque Reveal déclenche son animation */}
-              <article className="h-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-hover)] focus-within:-translate-y-1 focus-within:shadow-[var(--shadow-hover)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[rgba(52,211,153,0.18)] text-xl">
-                  <span aria-hidden="true">{item.icon}</span>
-                </div>
-                {/* Chaque carte décrit un axe de collaboration mis en avant */}
-                <h3 className="mt-4 font-heading text-xl font-semibold text-[var(--color-ink)]">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm text-[var(--color-muted)]">{item.description}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="mt-10">
+          <article className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-hover)] focus-within:-translate-y-1 focus-within:shadow-[var(--shadow-hover)]">
+            <p className="text-base text-[var(--color-muted)]">
+              Développeur polyvalent, je combine un socle backend Java/Spring Boot avec une pratique concrète du DevOps
+              (GitHub Actions, GitLab CI, Docker) pour livrer des APIs robustes et industrialisées. Sur le projet
+              signature VR (9 mois et demi), j&apos;ai d&apos;abord co-construit l&apos;application (Socket.IO, Flask,
+              base de données, front TypeScript) avant de reprendre seul la suite : nouvelles fonctionnalités, refonte
+              UI, gestion des points d&apos;intérêt 3D, script d&apos;automatisation Bash, coordination des parties
+              prenantes et démos régulières malgré les aléas matériels.
+            </p>
+            <p className="mt-6 text-base text-[var(--color-muted)]">
+              En amont, j&apos;ai mené le développement mobile Kotlin/SQLite pour le SEBA, avec OCR, architecture
+              logicielle et suivi qualité des relevés terrain en synergie avec l&apos;équipe Windows Forms. J&apos;entretiens
+              aussi une culture front moderne (React, Next.js, Tailwind) qui me permet de couvrir toute la chaîne produit
+              et d&apos;apporter une vision d&apos;ensemble sur les projets.
+            </p>
+          </article>
+        </Reveal>
       </Section>
 
-      {/* SECTION PROJETS : trois études de cas synthétiques */}
       <Section>
         <SectionTitle
           eyebrow="Projets"
@@ -252,7 +230,6 @@ export default function Home() {
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {projects.map((project, index) => (
             <Reveal key={project.id} delay={index * 90} className="h-full">
-              {/* Même principe : cascade animée sur chaque carte projet */}
               <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-hover)] focus-within:-translate-y-1 focus-within:shadow-[var(--shadow-hover)]">
                 <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[rgba(52,211,153,0.25)] via-[rgba(52,211,153,0.15)] to-transparent">
                   <div className="absolute inset-0 opacity-20 mix-blend-multiply">
@@ -283,7 +260,6 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-4 px-5 pb-6 pt-5">
-                  {/* Liste des technologies : pastilles colorées pour chaque tag */}
                   <div className="flex flex-wrap gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-muted)]/80">
                     {project.tags.map((tag) => (
                       <span key={tag} className="rounded-full bg-[rgba(52,211,153,0.12)] px-3 py-1 text-[var(--color-accent-strong)]">
@@ -296,7 +272,6 @@ export default function Home() {
                   </h3>
                   <p className="text-sm text-[var(--color-muted)]">{project.pitch}</p>
                   <div className="mt-auto flex items-center justify-between text-sm font-semibold text-[var(--color-ink)]">
-                    {/* Lien principal orienté “cas d’usage” */}
                     <Link
                       href={project.cta}
                       className="inline-flex items-center gap-2 transition-colors hover:text-[var(--color-accent-strong)]"
@@ -304,15 +279,12 @@ export default function Home() {
                       Voir le projet
                       <span aria-hidden="true">↗</span>
                     </Link>
-                    {/* Lien secondaire pour rediriger vers le GitHub global */}
-                    <Link
-                      href="https://github.com/AlassaneSECK"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-accent-strong)]"
+                    <span
+                      className="text-xs uppercase tracking-[0.18em] text-[var(--color-muted)]"
+                      title="Le code source est propriétaire et ne peut pas être partagé publiquement."
                     >
-                      GitHub
-                    </Link>
+                      Code propriétaire
+                    </span>
                   </div>
                 </div>
               </article>
@@ -321,7 +293,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* SECTION ARTICLES : contenu éditorial pour prolonger la découverte */}
       <Section>
         <SectionTitle
           eyebrow="Articles récents"
@@ -331,12 +302,10 @@ export default function Home() {
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {articles.map((article, index) => (
             <Reveal key={article.title} delay={index * 80}>
-              {/* Animation Reveal appliquée aux cartes d’articles pour garder une cohérence visuelle */}
               <article className="flex h-full flex-col gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-hover)] focus-within:-translate-y-1 focus-within:shadow-[var(--shadow-hover)]">
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
                   {article.date}
                 </span>
-                {/* Titre + extrait pour chaque contenu partagé */}
                 <h3 className="font-heading text-xl font-semibold text-[var(--color-ink)]">
                   {article.title}
                 </h3>
@@ -354,7 +323,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* SECTION CONTACT : invitation finale à la prise de contact */}
       <Section>
         <Reveal className="flex flex-col gap-6 rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center shadow-[var(--shadow-soft)] md:flex-row md:items-center md:justify-between md:text-left">
           <div className="max-w-xl">
@@ -365,7 +333,6 @@ export default function Home() {
               Je réponds sous 24–48h avec une première proposition de cadrage et des disponibilités pour avancer.
             </p>
           </div>
-          {/* Deux options de contact : email direct et prise de rendez-vous */}
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href="mailto:alassane.seck@alass-code.com"
@@ -387,3 +354,4 @@ export default function Home() {
     </div>
   );
 }
+

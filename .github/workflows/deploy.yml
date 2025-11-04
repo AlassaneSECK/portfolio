@@ -1,0 +1,88 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Create release archive
+        run: >
+          tar -czf release.tar.gz
+          --exclude=.git
+          --exclude=node_modules
+          --exclude=.next/cache
+          --exclude=release.tar.gz
+          --exclude='.env*'
+          .
+
+      - name: Upload artifact to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_KEY }}
+          port: ${{ secrets.HOSTINGER_PORT || '22' }}
+          source: "release.tar.gz"
+          target: "${{ secrets.HOSTINGER_APP_DIR }}"
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_KEY }}
+          port: ${{ secrets.HOSTINGER_PORT || '22' }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            APP_DIR="${{ secrets.HOSTINGER_APP_DIR }}"
+            if [ -z "$APP_DIR" ]; then
+              echo "HOSTINGER_APP_DIR secret must be set (ex: /home/deploy/portfolio)."
+              exit 1
+            fi
+            RELEASE_ARCHIVE="$APP_DIR/release.tar.gz"
+            if [ ! -f "$RELEASE_ARCHIVE" ]; then
+              echo "Archive not found at $RELEASE_ARCHIVE"
+              exit 1
+            fi
+
+            echo "Using application directory: $APP_DIR"
+            cd "$APP_DIR"
+
+            echo "Cleaning previous release (keeping .env* files)..."
+            find . -mindepth 1 -maxdepth 1 ! -name 'release.tar.gz' ! -name '.env*' -exec rm -rf {} +
+
+            echo "Extracting new release..."
+            tar -xzf "$RELEASE_ARCHIVE"
+            rm "$RELEASE_ARCHIVE"
+
+            echo "Running server-side deployment script..."
+            bash scripts/deploy.sh

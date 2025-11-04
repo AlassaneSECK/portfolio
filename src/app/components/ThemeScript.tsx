@@ -1,7 +1,5 @@
 /**
- * Script inline injecté dans le layout pour réappliquer le thème choisi
- * avant l’hydratation React (évite un flash clair/sombre).
- * On reste en JS natif pour ne pas dépendre de l’exécution React côté client.
+ * Script inline qui restaure le thème sélectionné avant hydratation.
  */
 export default function ThemeScript() {
   const script = `

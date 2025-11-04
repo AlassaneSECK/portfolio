@@ -1,20 +1,19 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
 type AllowedTag = "div" | "section" | "article";
 
 type RevealProps<T extends AllowedTag = "div"> = {
   as?: T;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   delay?: number;
 };
 
 /**
- * Composant utilitaire pour animer progressivement un bloc lorsqu’il entre dans le viewport.
- * - Utilise `IntersectionObserver` si disponible (sinon l’élément est visible par défaut).
- * - Le paramètre `delay` permet de décaler l’animation (utilisé pour les listes en cascade).
+ * Composant Reveal pour animer l’apparition des blocs.
  */
 export default function Reveal<T extends AllowedTag = "div">({
   as,
@@ -24,10 +23,8 @@ export default function Reveal<T extends AllowedTag = "div">({
 }: RevealProps<T>) {
   const Tag = (as ?? "div") as AllowedTag;
   const ref = useRef<HTMLDivElement | HTMLElement | null>(null);
-  const canObserve =
-    typeof window !== "undefined" && "IntersectionObserver" in window;
+  const canObserve = typeof window !== "undefined" && "IntersectionObserver" in window;
   const [visible, setVisible] = useState<boolean>(() => !canObserve);
-
   useEffect(() => {
     const element = ref.current;
     if (!element || !canObserve) {

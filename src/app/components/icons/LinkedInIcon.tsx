@@ -1,6 +1,8 @@
 import type { SVGProps } from "react";
 
-// Icône LinkedIn en SVG : mêmes props que GitHub pour garder une API homogène.
+/**
+ * Icône LinkedIn.
+ */
 export default function LinkedInIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
