@@ -50,6 +50,7 @@ const projects: readonly FeaturedProject[] = [
   }
 ] as const;
 
+
 const articles: readonly FeaturedArticle[] = [
   {
     title: "Maintenir 60 FPS sur un projet React + WebGL",
