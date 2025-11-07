@@ -53,25 +53,11 @@ const projects: readonly FeaturedProject[] = [
 
 const articles: readonly FeaturedArticle[] = [
   {
-    title: "Maintenir 60 FPS sur un projet React + WebGL",
-    date: "Jan 2025",
+    title: "Pas disponible",
+    date: "Jan 0000",
     href: "#",
     excerpt:
-      "Budgets de performance, streaming des assets et monitoring continu sans sacrifier l'UX."
-  },
-  {
-    title: "Accessibilité : to-do list pour design systems",
-    date: "Déc 2024",
-    href: "#",
-    excerpt:
-      "Focus states, raccourcis clavier et documentation vivante pour aligner équipes produit & dev."
-  },
-  {
-    title: "Industrialiser le handover développeur",
-    date: "Nov 2024",
-    href: "#",
-    excerpt:
-      "Guides de contribution, observabilité et accompagnement pour transmettre un socle pérenne."
+      "Pas disponible"
   }
 ] as const;
 
