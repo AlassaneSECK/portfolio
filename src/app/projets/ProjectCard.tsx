@@ -2,6 +2,8 @@
 
 import { useId, useState } from "react";
 
+import AdaptiveVideo from "@/app/components/AdaptiveVideo";
+
 import type { Project } from "./projectsData";
 
 type ProjectCardProps = {
@@ -53,17 +55,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       >
         {project.media && (
           <figure className="overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-deep)]">
-            <video
+            <AdaptiveVideo
+              assetId={project.media.assetId}
+              formats={project.media.formats}
+              poster={project.media.poster}
               className="h-full w-full object-cover"
               controls
               playsInline
               preload="metadata"
-              poster={project.media.poster}
-              aria-label={project.media.caption}
-            >
-              <source src={project.media.src} type="video/mp4" />
-              Votre navigateur ne supporte pas la lecture vidéo HTML5.
-            </video>
+              ariaLabel={project.media.caption}
+            />
             <figcaption className="border-t border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-4 text-sm text-[var(--color-muted)]">
               {project.media.caption}
             </figcaption>

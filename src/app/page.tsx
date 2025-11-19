@@ -3,6 +3,7 @@ import Link from "next/link";
 import Section from "@/app/components/Section";
 import SectionTitle from "@/app/components/SectionTitle";
 import Reveal from "@/app/components/Reveal";
+import AdaptiveVideo from "@/app/components/AdaptiveVideo";
 import GitHubIcon from "@/app/components/icons/GitHubIcon";
 import LinkedInIcon from "@/app/components/icons/LinkedInIcon";
 
@@ -147,7 +148,23 @@ export default function Home() {
                   <rect width="100%" height="100%" fill="url(#dots)" />
                 </svg>
               </div>
-              <div className="relative flex aspect-[16/10] flex-col justify-between bg-gradient-to-br from-white via-[rgba(52,211,153,0.08)] to-white p-6 text-[var(--color-ink-card)]">
+              <div className="relative flex flex-col gap-6 bg-gradient-to-br from-white via-[rgba(52,211,153,0.08)] to-white p-6 text-[var(--color-ink-card)]">
+                <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-deep)]">
+                  <AdaptiveVideo
+                    assetId="cryptoportiques-demo"
+                    className="h-full w-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    ariaLabel="Démonstration vidéo des cryptoportiques d'Arles"
+                  />
+                  <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center rounded-full bg-black/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
+                    Extrait vidéo
+                  </span>
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
+                </div>
                 <div>
                   <span className="inline-flex rounded-full bg-white/60 px-3 py-1 text-xs font-medium text-[var(--color-muted-card)] backdrop-blur">
                     Projet signature
@@ -157,12 +174,12 @@ export default function Home() {
                   </h2>
                   <p className="mt-2 max-w-md text-sm text-[var(--color-muted-card)]">
                     J&apos;ai eu l&apos;opportunité de travailler dans un projet de valorisation d&apos;un monument classé
-                      au patrimoine mondiale de l&apos;unesco durant mon stage au service du patrimoine de la ville d&apos;Arles.
-                      Ce projet a consisté a développer une application de visite immersive en 3D des crytoportiques.
-                    Une application multiplateforme, multijoueur et compatible avec la réalité virtuelle.
+                    au patrimoine mondial de l&apos;UNESCO durant mon stage au service du patrimoine de la ville
+                    d&apos;Arles. Ce projet a consisté à développer une application de visite immersive en 3D des
+                    cryptoportiques. Une application multiplateforme, multijoueur et compatible avec la réalité virtuelle.
                   </p>
                 </div>
-                <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="text-xs uppercase tracking-[0.24em] text-[var(--color-muted)]">
                     Three.js · HTML/CSS · Typescript · Python
                   </span>
@@ -341,4 +358,3 @@ export default function Home() {
     </div>
   );
 }
-

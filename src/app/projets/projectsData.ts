@@ -1,7 +1,8 @@
 export type ProjectMedia = {
-  src: string;
+  assetId: string;
   caption: string;
   poster?: string;
+  formats?: ("mp4" | "webm")[];
 };
 
 export type Project = {
@@ -46,8 +47,9 @@ export const projects: Project[] = [
     impact:
       "Présentations à 30-40 personnes, 15 tests utilisateurs réussis et capacité à livrer une démo complète en deux mois malgré les contraintes de matériel et de réseau.",
     media: {
-      src: "/projects/cryptoportiques/video/portfolio_projet_cryptoportique.mp4",
-      caption: "Démo immersive des cryptoportiques d'Arles (VR et multi-supports)"
+      assetId: "cryptoportiques-demo",
+      caption: "Démo immersive des cryptoportiques d'Arles (VR et multi-supports)",
+      formats: ["mp4"]
     }
   },
   {
