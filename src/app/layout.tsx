@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Alassane Seck"
   },
   description:
-    "Développeur full-stack spécialisé en React, TypeScript et Three.js. Interfaces performantes, accessibles et orientées produit.",
+    "Développeur full-stack qui conçoit des expériences VR, mobiles et web avec React, Next.js, Three.js, Kotlin ainsi que Java/Spring Boot pour livrer des produits fiables.",
   authors: [{ name: "Alassane Seck" }],
   creator: "Alassane Seck",
   keywords: [
